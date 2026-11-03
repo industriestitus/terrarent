@@ -169,8 +169,8 @@
     } catch (e) { location.href = `sms:?&body=${encodeURIComponent(szoveg)}`; }
   });
 
-  /* --- Kapumérő: minden ugyanabban a léptékben, a jelenet 270 cm széles --- */
-  const GEP = 110, JELENET = 270;
+  /* --- Kapumérő: minden ugyanabban a léptékben, a jelenet 290 cm széles, így a 250 cm-es kapu is kifér --- */
+  const GEP = 110, JELENET = 290;
   function kapu() {
     const c = +cs.value, w = $('kapuk').clientWidth, p = w / JELENET, kozep = w / 2;
     $('bal').style.left = `${kozep - c / 2 * p - 16}px`;
@@ -187,6 +187,15 @@
     else { it.textContent = 'Nem fér át.'; ma.textContent = `Hiányzik ${-f} cm. Hívj, megnézzük, van-e másik út.`; }
   }
   cs.addEventListener('input', () => { kapuMozgott = true; kapu(); frissit(); });
+  // Érintésre a sáv bármely pontja működjön, ne csak a fogantyú (iPhone-on a natív csúszka ezt nem tudja)
+  function csuszkaHuz(e) {
+    const b = cs.getBoundingClientRect(), felgomb = 17;
+    const t = Math.max(0, Math.min(1, (e.clientX - b.left - felgomb) / (b.width - 2 * felgomb)));
+    cs.value = Math.round(+cs.min + t * (+cs.max - +cs.min));
+    cs.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  cs.addEventListener('pointerdown', (e) => { cs.setPointerCapture(e.pointerId); csuszkaHuz(e); e.preventDefault(); });
+  cs.addEventListener('pointermove', (e) => { if (cs.hasPointerCapture(e.pointerId)) csuszkaHuz(e); });
   addEventListener('resize', kapu);
   kapu();
 
@@ -261,10 +270,11 @@
   const ker = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle('epul', e.isIntersecting)), { threshold: .35 });
   document.querySelectorAll('.ker').forEach((f) => ker.observe(f));
 
-  /* --- Kupac a láblécben: saját, egyszerű fizika. Koppintásra még egy lapátnyi jön. --- */
+  /* --- Kupac a láblécben: Verlet-fizika, a kövek megnyugszanak, utána leáll. Koppintásra még egy lapátnyi jön. --- */
   const vas = $('kupac'), ctx = vas.getContext('2d');
   const SZIN = ['#6B5233', '#55432B', '#7D6342', '#3F3022', '#8C7350', '#F0A020'];
-  let W = 0, H = 0, R = 0, kovek = [], fut = false, lathato = false, szunet = 0;
+  const G = .2, MAX_ALLAS = 600;
+  let W = 0, H = 0, R = 0, kovek = [], fut = false, lathato = false, szunet = 0, nyugalom = 0, keret = 0, utana = 0;
   function meretez() {
     const d = Math.min(devicePixelRatio || 1, 2), b = vas.getBoundingClientRect();
     W = b.width; H = b.height; R = Math.max(7, W / 62);
@@ -273,25 +283,49 @@
   }
   function uj(x, y) {
     const r = R * (.55 + Math.random() * .75);
-    kovek.push({ x, y, vx: (Math.random() - .5) * 2.4, vy: Math.random() * 2, r, s: Math.random() < .07 ? SZIN[5] : SZIN[Math.floor(Math.random() * 5)], f: Math.random() * 6 });
+    kovek.push({ x, y, px: x - (Math.random() - .5) * 1.4, py: y - 2 - Math.random() * 2, r, s: Math.random() < .07 ? SZIN[5] : SZIN[Math.floor(Math.random() * 5)], f: Math.random() * 6 });
   }
   function lepes() {
     for (const k of kovek) {
-      k.vy += .34; k.x += k.vx; k.y += k.vy;
-      if (k.y + k.r > H) { k.y = H - k.r; k.vy *= -.18; k.vx *= .7; }
-      if (k.x < k.r) { k.x = k.r; k.vx *= -.4; }
-      if (k.x > W - k.r) { k.x = W - k.r; k.vx *= -.4; }
+      if (k.alszik) continue;
+      const vx = (k.x - k.px) * .992, vy = (k.y - k.py) * .992;
+      k.px = k.x; k.py = k.y;
+      k.x += vx; k.y += vy + G;
+      k.tamasz = false;
     }
-    for (let i = 0; i < kovek.length; i++) for (let j = i + 1; j < kovek.length; j++) {
-      const a = kovek[i], b = kovek[j], dx = b.x - a.x, dy = b.y - a.y, min = a.r + b.r, t2 = dx * dx + dy * dy;
-      if (t2 < min * min && t2 > 0) {
-        const t = Math.sqrt(t2), nx = dx / t, ny = dy / t, atf = (min - t) * .5;
-        a.x -= nx * atf; a.y -= ny * atf; b.x += nx * atf; b.y += ny * atf;
-        const v = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
-        if (v < 0) { const im = v * .55; a.vx += nx * im; a.vy += ny * im; b.vx -= nx * im; b.vy -= ny * im; }
-        a.vx *= .985; b.vx *= .985;
+    for (let iter = 0; iter < 3; iter++) {
+      for (let i = 0; i < kovek.length; i++) for (let j = i + 1; j < kovek.length; j++) {
+        const a = kovek[i], b = kovek[j];
+        if (a.alszik && b.alszik) continue;
+        const dx = b.x - a.x, dy = b.y - a.y, min = a.r + b.r, t2 = dx * dx + dy * dy;
+        if (t2 >= min * min || t2 < 1e-6) continue;
+        const t = Math.sqrt(t2), atf = (min - t) * .85, nx = dx / t, ny = dy / t;
+        // Az alvó kő nem mozdul, az ébert tolja el teljesen
+        const sa = a.alszik ? 0 : b.alszik ? 1 : .5, sb = b.alszik ? 0 : a.alszik ? 1 : .5;
+        a.x -= nx * atf * sa; a.y -= ny * atf * sa; b.x += nx * atf * sb; b.y += ny * atf * sb;
+        // Súrlódás: az érintkező kövek lassulnak, ezért halom marad, nem terülnek szét
+        if (!a.alszik) { a.px += (a.x - a.px) * .07; a.py += (a.y - a.py) * .07; if (dy > 0 && (b.alszik || b.tamasz)) a.tamasz = true; }
+        if (!b.alszik) { b.px += (b.x - b.px) * .07; b.py += (b.y - b.py) * .07; if (dy < 0 && (a.alszik || a.tamasz)) b.tamasz = true; }
+      }
+      for (const k of kovek) {
+        if (k.alszik) continue;
+        if (k.y + k.r > H) { k.y = H - k.r; k.py = k.y; k.px += (k.x - k.px) * .35; k.tamasz = true; }
+        if (k.x < k.r) { k.x = k.r; k.px = k.x; }
+        if (k.x > W - k.r) { k.x = W - k.r; k.px = k.x; }
       }
     }
+    // Ami megállt és alátámasztott, elalszik: így véget ér a mozgás, és nincs remegés
+    for (const k of kovek) {
+      if (k.alszik) continue;
+      const seb = Math.max(Math.abs(k.x - k.px), Math.abs(k.y - k.py));
+      k.csend = seb < .22 && k.tamasz ? (k.csend || 0) + 1 : 0;
+      if (k.csend > 14) { k.alszik = true; k.px = k.x; k.py = k.y; }
+    }
+  }
+  function mozgas() {
+    let m = 0;
+    for (const k of kovek) if (!k.alszik) m = Math.max(m, Math.abs(k.x - k.px), Math.abs(k.y - k.py), .2);
+    return m;
   }
   function rajz() {
     ctx.clearRect(0, 0, W, H);
@@ -307,20 +341,33 @@
       ctx.fill();
     }
   }
+  function szoras() {
+    // Szélesen szórjuk, két kocka összeadva: középen több, a széleken kevesebb, így alacsony halom lesz
+    const x = W * (.12 + .28 * (Math.random() + Math.random()) + .04);
+    if (kovek.some((k) => Math.hypot(k.x - x, k.y) < k.r + R * 1.3)) { szunet -= .1; return; }
+    szunet--;
+    uj(x, -R);
+  }
   function ciklus() {
     if (!lathato) { fut = false; return; }
-    if (szunet > 0) { szunet--; uj(W * (.12 + Math.random() * .1), -R); }
-    lepes(); lepes(); rajz();
-    const mozog = szunet > 0 || kovek.some((k) => Math.abs(k.vy) > .55 || Math.abs(k.vx) > .3);
-    if (mozog) requestAnimationFrame(ciklus); else fut = false;
+    if (szunet > 0) szoras();
+    keret++;
+    lepes();
+    rajz();
+    nyugalom = mozgas() < .07 && szunet <= 0 ? nyugalom + 1 : 0;
+    // Ha pár kő még billeg, a szórás után nem sokkal mind megáll
+    utana = szunet <= 0 ? utana + 1 : 0;
+    if (utana > 240) for (const k of kovek) k.alszik = true;
+    if (nyugalom > 5 || keret > MAX_ALLAS) { fut = false; return; }
+    requestAnimationFrame(ciklus);
   }
-  function indit() { if (!fut && lathato) { fut = true; requestAnimationFrame(ciklus); } }
+  function indit() { if (!fut && lathato) { fut = true; nyugalom = 0; keret = 0; utana = 0; requestAnimationFrame(ciklus); } }
   function felold() {
-    const cel = Math.round(Math.min(150, W * H / (R * R * 9)));
     if (kovek.length) return;
+    const cel = Math.round(Math.min(120, W * H * .24 / (Math.PI * R * R * .85)));
     if (mozoghat) { szunet = cel; indit(); return; }
-    for (let i = 0; i < cel; i++) uj(Math.random() * W, H - Math.random() * H * .5);
-    for (let i = 0; i < 240; i++) lepes();
+    szunet = cel;
+    for (let i = 0; i < 1200; i++) { if (szunet > 0) szoras(); lepes(); }
     rajz();
   }
   new IntersectionObserver((es) => {
@@ -331,12 +378,20 @@
     const b = vas.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
     for (const k of kovek) {
       const dx = k.x - x, dy = k.y - y, t = Math.hypot(dx, dy) || 1;
-      if (t < R * 7) { const e2 = (R * 7 - t) / (R * 7) * 9; k.vx += dx / t * e2; k.vy += dy / t * e2 - 2; }
+      if (t < R * 7) { const lok = (R * 7 - t) / (R * 7) * 7; k.alszik = false; k.csend = 0; k.px -= dx / t * lok; k.py -= dy / t * lok + 2; }
     }
-    if (kovek.length < 220) for (let i = 0; i < 5; i++) uj(x + (Math.random() - .5) * R * 4, -R - i * R);
-    fut = false; indit();
+    if (kovek.length < 200) for (let i = 0; i < 5; i++) uj(x + (Math.random() - .5) * R * 4, -R - i * R * 2);
+    indit();
   });
   meretez();
   rajz();
-  addEventListener('resize', () => { meretez(); rajz(); });
+  // Telefonon a címsor elrejtése is resize: csak valódi méretváltásnál rajzolunk újra
+  addEventListener('resize', () => {
+    const b = vas.getBoundingClientRect();
+    if (Math.abs(b.width - W) < 1 && Math.abs(b.height - H) < 1) return;
+    meretez();
+    for (const k of kovek) { k.x = Math.min(k.x, W - k.r); k.y = Math.min(k.y, H - k.r); k.px = k.x; k.py = k.y; k.alszik = false; k.csend = 0; }
+    if (kovek.length) indit();
+    rajz();
+  });
 })();
