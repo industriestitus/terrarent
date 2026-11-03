@@ -75,13 +75,8 @@
     </form>
   </section>
 
-  <section class="arok-hely" aria-label="Kézzel vagy géppel">
-    <div class="arok">
-      <div class="lec" aria-hidden="true"><i style="top:0">0 m</i><i style="top:23%">0,5</i><i style="top:46%">1,0</i><i style="top:69%">1,5</i><i style="top:92%">2,0</i></div>
-      <p class="arok-1">Állj meg.</p>
-      <p class="arok-2">Ez az árok gyanúsan hosszú.</p>
-      <p class="arok-3">Kézzel ásnád?</p>
-
+  <section class="kezzel" aria-label="Kézzel vagy géppel">
+    <div class="kezzel-fent">
       <figure class="tabla">
         <svg viewBox="0 0 200 178" role="img" aria-label="Figyelmeztető tábla: ember lapáttal">
           <path d="M100 8c6 0 10 3 13 8l78 138c5 9-1 19-11 19H20c-10 0-16-10-11-19L87 16c3-5 7-8 13-8z" fill="#F0A020"/>
@@ -89,23 +84,18 @@
           <g fill="#141414"><circle cx="94" cy="74" r="10"/><path d="M84 88l20 3 10 24-10 3-8-15-3 18 13 29-10 4-16-29-12 27-10-3 15-37 3-14-14 11-7-7z"/></g>
           <path d="M108 112l32 32" stroke="#141414" stroke-width="5" stroke-linecap="round"/><path d="M134 146l14-6 6 16-12 4z" fill="#141414"/>
         </svg>
-        <figcaption>Figyelem! Kézi ásás.<br>Derékveszély.</figcaption>
       </figure>
-
+      <h2 class="cim">Kézzel.</h2>
       <p class="lepcso"><span>Derék.</span><span>Hólyag.</span><span>Vasárnap.</span></p>
-
-      <p class="arok-3 narancs-sz">Géppel?</p>
+    </div>
+    <div class="kezzel-lent">
+      <h2 class="cim">Géppel.</h2>
       <p class="lepcso egyenes"><span>Telefon.</span><span>Kávé.</span><span>Kész.</span></p>
-
-      <div class="arok-alja">
-        <p class="melyseg">2,2 m. Eddig ér le a kotró.</p>
-        <a class="nagyszam" href="tel:+36708566191">06 70 856 6191</a>
-        <div class="dontes">
-          <a class="gomb gomb-fo" href="tel:+36708566191">Hívom</a>
-          <button class="gomb" type="button" id="asok">Inkább ások</button>
-        </div>
-        <p class="valasz" id="asokvalasz" role="status"></p>
+      <div class="dontes">
+        <a class="gomb gomb-sotet" href="tel:+36708566191">Hívom</a>
+        <button class="gomb" type="button" id="asok">Inkább ások</button>
       </div>
+      <p class="valasz" id="asokvalasz" role="status"></p>
     </div>
   </section>
 
@@ -133,18 +123,17 @@
     </article>
 
     <article class="gep gep-b">
-      <h3><s>Öreg gép.</s> <span class="kor">Tapasztalt.<svg class="firka" viewBox="0 0 200 70" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M26 18C70 2 150 2 182 20c20 12 6 34-40 42-46 7-112 4-128-16C2 30 30 12 70 8"/></svg></span></h3>
+      <h3>Felrakja. <span class="kor">Odaviszi.<svg class="firka" viewBox="0 0 200 70" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M26 18C70 2 150 2 182 20c20 12 6 34-40 42-46 7-112 4-128-16C2 30 30 12 70 8"/></svg></span></h3>
       <figure class="gepkep">
         <img src="kep/bobcat.webp" width="795" height="1100" loading="lazy" alt="Fehér, kopott Bobcat homlokrakodó, kanalában földdel">
-        <span class="szalag" style="right:0;top:34%;--r:3deg">ez nem hiba, ez tapasztalat</span>
-        <span class="szalag" style="left:0;bottom:7%;--r:-3deg">felrakja, odaviszi</span>
+        <span class="szalag" style="right:0;top:34%;--r:3deg">helyben megfordul</span>
+        <span class="szalag" style="left:0;bottom:7%;--r:-3deg">föld, sóder, sitt</span>
       </figure>
       <table class="adat">
         <caption>Gépadatok</caption>
         <tr><th>Szélesség</th><td><span class="dummy">kb. 90 cm</span></td></tr>
         <tr><th>Kanál</th><td>van</td></tr>
         <tr><th>Fordulás</th><td>helyben</td></tr>
-        <tr><th>Kopás</th><td>megvan</td></tr>
         <tr class="vastag"><th>Talicska</th><td>0 forduló</td></tr>
       </table>
     </article>
@@ -172,7 +161,7 @@
   </section>
 
   <section class="kerites" id="kerites">
-    <h2 class="cim">A kerítés<br>a földben<br>kezdődik.</h2>
+    <h2 class="cim">Kerítés<br>A-tól Z-ig.</h2>
     <div class="lemez" aria-hidden="true">
       <div class="panel"></div><div class="poszt"></div><div class="res"><img src="kep/bobcat.webp" width="795" height="1100" loading="lazy" alt=""></div><div class="poszt"></div><div class="panel"></div>
     </div>

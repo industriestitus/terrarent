@@ -86,33 +86,21 @@ legend{font-weight:900;font-size:1.05rem;padding:14px 0 8px}
 .lap-al{display:grid;gap:8px;margin-top:18px;padding-top:14px;border-top:2px dashed var(--ink)}
 .kis-jegy{font-size:.8rem;font-weight:500;margin-top:2px}
 
-/* Az árok: fekete oszlop a földben, oldalt mérce */
-.arok-hely{padding:0 0 70px}
-.arok{position:relative;width:min(88vw,720px);margin:0 auto;background:var(--arok);padding:40px 22px 40px 52px;overflow:hidden}
-.arok::before,.arok::after{content:'';position:absolute;top:0;bottom:0;width:14px;z-index:1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='170'%3E%3Cpath fill='%232B2017' d='M0 0h8l5 22-8 22 7 28-9 24 8 30-5 22 2 22H0z'/%3E%3C/svg%3E") repeat-y}
-.arok::before{left:0}.arok::after{right:0;transform:scaleX(-1)}
-.lec{position:absolute;left:14px;top:0;bottom:0;width:30px;border-left:2px solid #4b4238;background:repeating-linear-gradient(to bottom,#4b4238 0 2px,transparent 2px 40px) 0 0/10px 100% no-repeat}
-.lec i{position:absolute;left:12px;white-space:nowrap;font:700 .68rem var(--mono);color:#8f8373;margin-top:2px}
-.arok-1,.arok-2,.arok-3{font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:1.04}
-.arok-1{font-size:clamp(2.1rem,9.6vw,4.6rem);margin-top:10px}
-.arok-2{font-size:clamp(1.5rem,6.6vw,3.2rem);margin-top:52svh;color:#fff}
-.arok-3{font-size:clamp(1.9rem,8.6vw,4rem);margin-top:44svh}
-.narancs-sz{color:var(--orange)}
-.tabla{margin-top:48px;max-width:250px}
+/* Kézzel vagy géppel */
+.kezzel-fent{background:#1E1E1C;color:#fff;padding:56px var(--g) 50px;position:relative;overflow:hidden}
+.kezzel-fent .cim{font-size:clamp(3rem,16vw,11rem);color:#8f8f88}
+.tabla{position:absolute;right:var(--g);top:clamp(116px,31vw,240px);width:min(27vw,190px)}
 .tabla svg{width:100%;height:auto}
-.tabla figcaption{font-weight:900;font-size:1.2rem;line-height:1.15;margin-top:10px;color:var(--orange);text-transform:uppercase;letter-spacing:-.02em}
-.lepcso{font-weight:900;font-size:clamp(1.9rem,8.8vw,4.2rem);text-transform:uppercase;letter-spacing:-.035em;line-height:1.06;margin-top:30svh;color:#8f8373}
+.lepcso{font-weight:900;font-size:clamp(1.9rem,9vw,5rem);text-transform:uppercase;letter-spacing:-.035em;line-height:1.06;margin-top:14px}
 .lepcso span{display:block;white-space:nowrap}
 .lepcso span:nth-child(2){margin-left:.55em}
 .lepcso span:nth-child(3){margin-left:.2em;transform:rotate(6deg);transform-origin:0 100%}
-.lepcso.egyenes{margin-top:18px;color:#fff}
+.kezzel-lent{background:var(--orange);color:var(--ink);padding:50px var(--g) 56px}
+.kezzel-lent .cim{font-size:clamp(3rem,16vw,11rem)}
 .lepcso.egyenes span{margin:0;transform:none}
-.arok-alja{margin-top:38svh}
-.melyseg{font:700 .92rem var(--mono);color:var(--orange)}
-.nagyszam{display:block;font-weight:900;letter-spacing:-.045em;line-height:1.02;text-decoration:none;white-space:nowrap;font-size:min(10.6vw,5.4rem);margin-top:8px}
-.arok .nagyszam{font-size:min(8.3vw,3.9rem)}
-.dontes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
-.valasz{font-weight:900;font-size:1.25rem;margin-top:12px;color:var(--orange)}
+.dontes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px;max-width:560px}
+.valasz{font-weight:900;font-size:1.25rem;margin-top:12px}
+.valasz:empty{display:none}
 
 /* Beton: a gépek bemutatkoznak */
 .beton{background:var(--beton);color:var(--ink);padding:56px var(--g) 60px;
@@ -201,8 +189,10 @@ input[type=range]{width:100%;height:48px;accent-color:var(--ink);margin-top:2px}
   .munkalap-hely .al{grid-column:1;font-size:1.25rem}
   .munkalap{grid-column:2;grid-row:1/span 3;margin-top:0}
   .valaszt{grid-template-columns:1fr 1fr 1fr}
-  .arok{padding:60px 56px 60px 90px}.lec{left:22px}
-  .arok-hely{padding-bottom:110px}
+  .kezzel{display:grid;grid-template-columns:1fr 1fr}
+  .kezzel-fent,.kezzel-lent{padding:90px 48px}
+  .kezzel-fent .cim,.kezzel-lent .cim{font-size:min(7.6vw,8rem)}
+  .lepcso{font-size:min(4.4vw,4.6rem)}
   .beton{padding-top:90px;padding-bottom:90px}
   .gep{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);column-gap:48px;align-items:end;margin-top:70px}
   .gep h3{grid-column:1/-1}
