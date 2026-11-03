@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TerraRent Balassagyarmat: minikotró és Bobcat gépkezelővel</title>
+<meta name="description" content="Minikotró és Bobcat gépkezelővel Balassagyarmaton és környékén. Földmunka, kerítésépítés, kisebb építőipari munkák. A kotró 110 cm széles, átfér a kapun.">
+<!-- PRÓBAVERZIÓ: amíg dummy szövegek vannak rajta, ne kerüljön a Google-be. Élesítéskor törlendő. -->
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#F0A020">
+<meta property="og:title" content="TerraRent: Ne talicskázz. Hívd a Bobcatet.">
+<meta property="og:description" content="Minikotró és Bobcat gépkezelővel, Balassagyarmat.">
+<meta property="og:image" content="kep/og.jpg">
+<link rel="preload" href="betu/mont-Black.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"GeneralContractor","name":"TerraRent","telephone":["+36708566191","+36209677647"],"areaServed":"Balassagyarmat és vonzáskörzete","description":"Minikotró és Bobcat gépkezelővel, földmunka, kerítésépítés, kisebb építőipari munkák."}
+</script>
+</head>
+<body>
+
+<section class="ego" id="teteje">
+  <header class="fej">
+    <a class="nev" href="#teteje" aria-label="TerraRent, az oldal teteje">TERRA<span>RENT</span></a>
+    <span class="proba">próba</span>
+  </header>
+  <p class="allapot" id="allapot">Balassagyarmat</p>
+  <h1 class="foc">
+    <span>Ne</span>
+    <span>talicskázz.</span>
+    <span>Hívd a <img class="szoban" src="kep/bobcat-kicsi.webp" width="174" height="240" alt=""></span>
+    <span>Bobcatet.</span>
+  </h1>
+  <p class="bev">Minikotró és Bobcat gépkezelővel, Balassagyarmaton és környékén. Földmunka, kerítés, kisebb építőipari munkák.</p>
+</section>
+
+<main class="fold">
+
+  <svg class="gerinc" viewBox="0 0 1200 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70V38c40-10 70 6 112-3 34-8 52-22 96-15 44 8 61 22 108 17 37-4 54-20 96-22 46-2 72 22 121 23 40 1 57-13 97-15 48-2 66 14 112 11 41-3 62-20 104-18 44 2 68 22 110 19 37-3 62-14 94-11 26 3 41 10 150 8v43z"/></svg>
+  <img class="kotro-gerinc" src="kep/lubeck.webp" width="1200" height="963" alt="A sárga LUBECK minikotró a földhullám tetején">
+
+  <section class="munkalap-hely" id="ajanlat">
+    <h2 class="cim">Mi kell?</h2>
+    <p class="al">Töltsd ki a munkalapot, tíz másodperc. Utána hívj, vagy küldd el emailben.</p>
+
+    <form class="munkalap" id="lap" onsubmit="return false">
+      <div class="lap-fej"><span>Munkalap</span><span id="lapdatum"></span></div>
+
+      <fieldset class="valaszt">
+        <legend>Mit kell csinálni?</legend>
+        <label class="kaf"><input type="radio" name="munka" value="arok"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M2 15h13l4 22h10l4-22h13"/><path d="M21 31h6" stroke-dasharray="2 3"/></svg><b>Árok</b></label>
+        <label class="kaf"><input type="radio" name="munka" value="alap"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 29V18L24 8l15 10v11"/><path d="M4 29h40v9H4z"/></svg><b>Alap</b></label>
+        <label class="kaf"><input type="radio" name="munka" value="kerites"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 7v33M24 7v33M40 7v33M3 16h42M3 30h42"/></svg><b>Kerítés</b></label>
+        <label class="kaf"><input type="radio" name="munka" value="rakodas"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M3 39c9-15 14-21 21-21s12 6 21 21z"/><path d="M20 28h.1M28 31h.1M24 35h.1M15 34h.1M33 35h.1"/></svg><b>Föld, sóder, sitt</b></label>
+        <label class="kaf"><input type="radio" name="munka" value="terep"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M3 22c6-8 11-8 16-2s10 6 14 1 7-5 12-1"/><path d="M3 36h42"/></svg><b>Tereprendezés</b></label>
+        <label class="kaf"><input type="radio" name="munka" value="mas"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M16 17c0-6 4-9 8-9s9 3 9 8c0 7-9 7-9 15"/><path d="M24 39h.1"/></svg><b>Valami más</b></label>
+      </fieldset>
+      <p class="tanacs" id="tanacs" role="status"></p>
+
+      <label class="mezo">Hol?<input id="hely" type="text" name="hely" placeholder="település, utca" autocomplete="address-level2"></label>
+
+      <fieldset class="mikor">
+        <legend>Mikor?</legend>
+        <label><input type="radio" name="mikor" value="Minél előbb"><span>Minél előbb</span></label>
+        <label><input type="radio" name="mikor" value="Ezen a héten"><span>Ezen a héten</span></label>
+        <label><input type="radio" name="mikor" value="Ráér"><span>Ráér</span></label>
+      </fieldset>
+
+      <div class="lap-al">
+        <a class="gomb gomb-fo" href="tel:+36708566191">Hívom: 06 70 856 6191</a>
+        <a class="gomb" href="tel:+36209677647">Vagy: 06 20 967 7647</a>
+        <a class="gomb gomb-level" id="level" href="mailto:ajanlat@terrarent.example">Elküldöm emailben</a>
+        <p class="kis-jegy"><span class="dummy">Ingyen kijövünk megnézni.</span> Az email a saját leveleződből megy, itt semmit nem tárolunk.</p>
+      </div>
+    </form>
+  </section>
+
+  <section class="arok-hely" aria-label="Kézzel vagy géppel">
+    <div class="arok">
+      <div class="lec" aria-hidden="true"><i style="top:0">0 m</i><i style="top:23%">0,5</i><i style="top:46%">1,0</i><i style="top:69%">1,5</i><i style="top:92%">2,0</i></div>
+      <p class="arok-1">Állj meg.</p>
+      <p class="arok-2">Ez az árok gyanúsan hosszú.</p>
+      <p class="arok-3">Kézzel ásnád?</p>
+
+      <figure class="tabla">
+        <svg viewBox="0 0 200 178" role="img" aria-label="Figyelmeztető tábla: ember lapáttal">
+          <path d="M100 8c6 0 10 3 13 8l78 138c5 9-1 19-11 19H20c-10 0-16-10-11-19L87 16c3-5 7-8 13-8z" fill="#F0A020"/>
+          <path d="M100 26l76 133H24z" fill="none" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+          <g fill="#141414"><circle cx="94" cy="74" r="10"/><path d="M84 88l20 3 10 24-10 3-8-15-3 18 13 29-10 4-16-29-12 27-10-3 15-37 3-14-14 11-7-7z"/></g>
+          <path d="M108 112l32 32" stroke="#141414" stroke-width="5" stroke-linecap="round"/><path d="M134 146l14-6 6 16-12 4z" fill="#141414"/>
+        </svg>
+        <figcaption>Figyelem! Kézi ásás.<br>Derékveszély.</figcaption>
+      </figure>
+
+      <p class="lepcso"><span>Derék.</span><span>Hólyag.</span><span>Vasárnap.</span></p>
+
+      <p class="arok-3 narancs-sz">Géppel?</p>
+      <p class="lepcso egyenes"><span>Telefon.</span><span>Kávé.</span><span>Kész.</span></p>
+
+      <div class="arok-alja">
+        <p class="melyseg">2,2 m. Eddig ér le a kotró.</p>
+        <a class="nagyszam" href="tel:+36708566191">06 70 856 6191</a>
+        <div class="dontes">
+          <a class="gomb gomb-fo" href="tel:+36708566191">Hívom</a>
+          <button class="gomb" type="button" id="asok">Inkább ások</button>
+        </div>
+        <p class="valasz" id="asokvalasz" role="status"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="beton" id="gepek">
+    <h2 class="cim">Számít a méret.</h2>
+
+    <article class="gep">
+      <h3><s>Kicsi gép.</s> <span class="kor">110 cm.<svg class="firka" viewBox="0 0 200 70" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M26 18C70 2 150 2 182 20c20 12 6 34-40 42-46 7-112 4-128-16C2 30 30 12 70 8"/></svg></span></h3>
+      <figure class="gepkep">
+        <img src="kep/lubeck.webp" width="1200" height="963" loading="lazy" alt="LUBECK minikotró oldalról, sárga, gumi lánctalppal">
+        <span class="szalag" style="left:0;top:8%;--r:-3deg">fal mellett is ás</span>
+        <span class="szalag" style="left:2%;bottom:-1%;--r:2deg">kanál: ezt nem te emeled</span>
+        <span class="szalag" style="right:0;bottom:-7%;--r:-2deg">ez fér át a kapun</span>
+      </figure>
+      <table class="adat">
+        <caption>Gépadatok</caption>
+        <tr><th>Szélesség</th><td>110 cm</td></tr>
+        <tr><th>Tömeg</th><td>1,6 t</td></tr>
+        <tr><th>Ásásmélység</th><td>2,2 m</td></tr>
+        <tr><th>Magasság</th><td>2,3 m</td></tr>
+        <tr><th>Gémfordulás</th><td>van, fal mellett is ás</td></tr>
+        <tr class="vastag"><th>Derékfájás</th><td>0 g</td></tr>
+        <tr><th>Hólyag</th><td>0 db</td></tr>
+      </table>
+    </article>
+
+    <article class="gep gep-b">
+      <h3><s>Öreg gép.</s> <span class="kor">Tapasztalt.<svg class="firka" viewBox="0 0 200 70" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M26 18C70 2 150 2 182 20c20 12 6 34-40 42-46 7-112 4-128-16C2 30 30 12 70 8"/></svg></span></h3>
+      <figure class="gepkep">
+        <img src="kep/bobcat.webp" width="795" height="1100" loading="lazy" alt="Fehér, kopott Bobcat homlokrakodó, kanalában földdel">
+        <span class="szalag" style="right:0;top:34%;--r:3deg">ez nem hiba, ez tapasztalat</span>
+        <span class="szalag" style="left:0;bottom:7%;--r:-3deg">felrakja, odaviszi</span>
+      </figure>
+      <table class="adat">
+        <caption>Gépadatok</caption>
+        <tr><th>Szélesség</th><td><span class="dummy">kb. 90 cm</span></td></tr>
+        <tr><th>Kanál</th><td>van</td></tr>
+        <tr><th>Fordulás</th><td>helyben</td></tr>
+        <tr><th>Kopás</th><td>megvan</td></tr>
+        <tr class="vastag"><th>Talicska</th><td>0 forduló</td></tr>
+      </table>
+    </article>
+    <p class="kezelo">Mindkettő gépkezelővel jön. Nem kell megtanulnod.</p>
+  </section>
+
+  <section class="kapu-hely" id="kapu">
+    <h2 class="cim">Mérd meg<br>a kapudat.</h2>
+    <p class="al">Fogd a mérőszalagot, és húzd a csúszkát akkorára, amekkora a kapu.</p>
+    <div class="kapu" id="kapuk" aria-hidden="true">
+      <span class="kapu-meret" id="meret">150 cm</span>
+      <div class="oszlop" id="bal"></div><div class="oszlop" id="jobb"></div>
+      <svg class="szembol" id="szembol" viewBox="0 0 110 200" preserveAspectRatio="none">
+        <path d="M14 22h82M22 22v70M88 22v70" fill="none" stroke="#141414" stroke-width="5"/>
+        <path d="M6 14h98v9H6z" fill="#141414"/>
+        <path d="M18 92h74l6 62H12z" fill="#141414"/>
+        <rect x="0" y="150" width="28" height="50" rx="5" fill="#141414"/><rect x="82" y="150" width="28" height="50" rx="5" fill="#141414"/>
+      </svg>
+    </div>
+    <label class="csuszka" for="cs">A kapu szélessége</label>
+    <input id="cs" type="range" min="70" max="250" value="150" step="1">
+    <p class="itelet" id="itelet" role="status">Átfér.</p>
+    <p class="magyar" id="magy">Marad még 40 cm. Hívj, és megyünk.</p>
+    <a class="gomb gomb-sotet" href="tel:+36708566191">Hívom: 06 70 856 6191</a>
+  </section>
+
+  <section class="kerites" id="kerites">
+    <h2 class="cim">A kerítés<br>a földben<br>kezdődik.</h2>
+    <div class="lemez" aria-hidden="true">
+      <div class="panel"></div><div class="poszt"></div><div class="res"><img src="kep/bobcat.webp" width="795" height="1100" loading="lazy" alt=""></div><div class="poszt"></div><div class="panel"></div>
+    </div>
+    <ol class="betuk">
+      <li><b>A</b><span>Alap. Géppel ássuk ki.</span></li>
+      <li><b>O</b><span>Oszlopok. Felállítjuk.</span></li>
+      <li><b>L</b><span>Lemez, vagy amit kérsz. Felhúzzuk.</span></li>
+      <li><b>Z</b><span>Zár a kapun. Kész.</span></li>
+    </ol>
+    <p class="tipusok">Lemezkerítés. <span class="dummy">Drótfonat. Táblás. Fa.</span> Mindenféle.</p>
+  </section>
+
+  <section class="terulet" id="terulet">
+    <h2 class="cim">Hova megyünk?</h2>
+    <p class="fal">Balassagyarmat. <span class="dummy">Patvarc. Ipolyvece. Dejtár. Drégelypalánk. Hont. Patak. Érsekvadkert. Szügy. Mohora. Nógrádmarcal. Rétság. Bánk. Tolmács.</span></p>
+    <p class="al">Nyugat-Nógrádban nincs kiszállási díj. Nem látod a falut? Hívj, attól még megyünk.</p>
+  </section>
+
+</main>
+
+<footer class="lab" id="lab">
+  <p class="lab-1">Ezt most kézzel kéne elhordanod.</p>
+  <a class="nagyszam" href="tel:+36708566191">06 70 856 6191</a>
+  <a class="nagyszam" href="tel:+36209677647">06 20 967 7647</a>
+  <a class="lab-mail dummy" href="mailto:ajanlat@terrarent.example">ajanlat@terrarent.example</a>
+  <canvas id="kupac" class="kupac" aria-hidden="true"></canvas>
+  <div class="lab-al">
+    <p>TerraRent, Balassagyarmat. <span class="dummy">Cégnév, székhely, adószám ide jön.</span></p>
+    <p>Süti nincs. Földet kapsz.</p>
+    <p class="jel">Próbaverzió. A pontozottan aláhúzott szövegek még nem véglegesek.</p>
+  </div>
+</footer>
+
+<nav class="hivas" aria-label="Hívás">
+  <a href="tel:+36708566191"><small>Hívom</small>06 70 856 6191</a>
+  <a href="tel:+36209677647"><small>Vagy</small>06 20 967 7647</a>
+</nav>
+
+<script src="app.js" defer></script>
+</body>
+</html>
