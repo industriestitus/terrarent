@@ -200,6 +200,67 @@
   ['sz-h', 'sz-sz', 'sz-m'].forEach((i) => $(i).addEventListener('input', szamol));
   szamol();
 
+  /* --- Kerítések: oszlop, tartó, kitöltés sorrendben épülnek fel, ha odaérsz --- */
+  function kerites(nev, rajzol) {
+    const fig = document.createElement('figure');
+    fig.className = 'ker';
+    const s = el('svg', { viewBox: '0 0 240 132', role: 'img', 'aria-label': nev }, fig);
+    const elem = (tipus, attr, osztaly, kesleltet) => {
+      const e = el(tipus, attr, s);
+      e.setAttribute('class', `k ${osztaly}`);
+      e.style.setProperty('--d', `${kesleltet}s`);
+      return e;
+    };
+    rajzol(elem);
+    for (const [i, x] of [12, 116, 220].entries()) elem('rect', { x, y: 16, width: 8, height: 106, fill: '#8C8E92' }, 'k-no', i * .12);
+    el('path', { d: 'M0 122H240', stroke: '#6B5233', 'stroke-width': 4 }, s);
+    fig.appendChild(Object.assign(document.createElement('figcaption'), { textContent: nev }));
+    $('keritesek').appendChild(fig);
+  }
+  const SZAK = [[20, 116], [124, 220]];
+  kerites('Lemezkerítés', (elem) => {
+    let i = 0;
+    for (const [a, b] of SZAK) for (let x = a; x < b; x += 12, i++) {
+      elem('rect', { x, y: 26, width: Math.min(12, b - x), height: 94, fill: i % 2 ? '#D8880A' : '#F0A020' }, 'k-emel', .45 + i * .06);
+      elem('rect', { x: x + 8, y: 26, width: 2, height: 94, fill: '#FBC765' }, 'k-emel', .45 + i * .06);
+    }
+  });
+  kerites('Drótfonat', (elem) => {
+    for (const y of [28, 118]) elem('path', { d: `M16 ${y}H224`, pathLength: 1, fill: 'none', stroke: '#C9C7C1', 'stroke-width': 2.4 }, 'k-huz', .4);
+    let i = 0;
+    for (const [a, b] of SZAK) for (let x = a - 76; x < b; x += 14, i++) {
+      const vonal = (x1, y1, x2, y2) => {
+        // A szemeket a két oszlop közé vágjuk
+        const v = (t) => [x1 + (x2 - x1) * t, y1 + (y2 - y1) * t];
+        let t0 = 0, t1 = 1;
+        if (x1 < a) t0 = (a - x1) / (x2 - x1);
+        if (x2 > b) t1 = (b - x1) / (x2 - x1);
+        if (t0 >= t1) return;
+        const [p, q] = [v(t0), v(t1)];
+        elem('path', { d: `M${p[0]} ${p[1]}L${q[0]} ${q[1]}`, pathLength: 1, fill: 'none', stroke: '#E8E6DF', 'stroke-width': 1.2 }, 'k-huz', .55 + i * .025);
+      };
+      vonal(x, 118, x + 90, 28);
+      vonal(x, 28, x + 90, 118);
+    }
+  });
+  kerites('Táblás kerítés', (elem) => {
+    SZAK.forEach(([a, b], n) => {
+      const d = .5 + n * .55, szin = '#A9B8AD', g = [];
+      for (let x = a + 4; x < b - 2; x += 8) g.push(`M${x} 30V116`);
+      for (const y of [32, 64, 68, 114]) g.push(`M${a} ${y}H${b}`);
+      elem('path', { d: g.join(''), fill: 'none', stroke: szin, 'stroke-width': 2.2 }, 'k-hull', d);
+    });
+  });
+  kerites('Fa kerítés', (elem) => {
+    for (const y of [46, 100]) elem('rect', { x: 16, y, width: 208, height: 6, fill: '#7A5A36' }, 'k-no', .35);
+    let i = 0;
+    for (const [a, b] of SZAK) for (let x = a + 1; x < b - 9; x += 13, i++) {
+      elem('path', { d: `M${x} 120V36l5-8 5 8V120z`, fill: i % 3 ? '#B98A55' : '#A87946' }, 'k-hull', .5 + i * .07);
+    }
+  });
+  const ker = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle('epul', e.isIntersecting)), { threshold: .35 });
+  document.querySelectorAll('.ker').forEach((f) => ker.observe(f));
+
   /* --- Kupac a láblécben: saját, egyszerű fizika. Koppintásra még egy lapátnyi jön. --- */
   const vas = $('kupac'), ctx = vas.getContext('2d');
   const SZIN = ['#6B5233', '#55432B', '#7D6342', '#3F3022', '#8C7350', '#F0A020'];

@@ -44,6 +44,7 @@
 
   <svg class="gerinc" viewBox="0 0 1200 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70V38c40-10 70 6 112-3 34-8 52-22 96-15 44 8 61 22 108 17 37-4 54-20 96-22 46-2 72 22 121 23 40 1 57-13 97-15 48-2 66 14 112 11 41-3 62-20 104-18 44 2 68 22 110 19 37-3 62-14 94-11 26 3 41 10 150 8v43z"/></svg>
   <img class="kotro-gerinc" src="kep/lubeck.webp" width="1200" height="963" fetchpriority="high" alt="Sárga LUBECK minikotró a földhullám tetején">
+  <img class="rakodo-gerinc" src="kep/bobcat.webp" width="795" height="1100" alt="Fehér Bobcat homlokrakodó a földhullám tetején">
 
   <section class="kiszall" id="kiszallas">
     <div class="kiszall-bal">
@@ -131,35 +132,27 @@
     </div>
   </section>
 
-  <section class="kezzel" id="szamolo">
-    <div class="kezzel-fent">
-      <h2 class="plakat">Kézzel.</h2>
-      <p class="szamolo-bev">Mekkora az árok? Számold ki.</p>
+  <section class="szamolo-hely" id="szamolo">
+    <div>
+      <h2>Hány talicska?</h2>
+      <p class="szamolo-bev">Add meg az árok méretét.</p>
       <form class="szamolo" onsubmit="return false">
         <label>Hossz<span><input id="sz-h" type="text" inputmode="decimal" value="12"> m</span></label>
         <label>Szélesség<span><input id="sz-sz" type="text" inputmode="decimal" value="0,4"> m</span></label>
         <label>Mélység<span><input id="sz-m" type="text" inputmode="decimal" value="0,8"> m</span></label>
       </form>
+    </div>
+    <div>
       <p class="talicska" role="status"><b id="sz-db">64</b> talicska</p>
       <p class="szamolo-al"><span id="sz-m3">3,84</span> m³ föld, lazulás nélkül, 60 literes talicskával.</p>
-      <p class="lepcso"><span>Derék.</span><span>Hólyag.</span><span>Vasárnap.</span></p>
-    </div>
-    <div class="kezzel-lent">
-      <h2 class="plakat">Géppel.</h2>
-      <p class="lepcso egyenes"><span>Telefon.</span><span>Kávé.</span><span>Kész.</span></p>
-      <a class="gomb gomb-sotet" href="tel:+36708566191">Hívom: 06 70 856 6191</a>
+      <a class="gomb gomb-fo" href="tel:+36708566191">Inkább hívom: 06 70 856 6191</a>
     </div>
   </section>
 
   <section class="kerites" id="kerites">
-    <h2>Kerítés A-tól Z-ig.</h2>
-    <ol class="lemez">
-      <li><b aria-hidden="true">A</b><span>Alap. Géppel ássuk ki.</span></li>
-      <li><b aria-hidden="true">O</b><span>Oszlopok. Felállítjuk.</span></li>
-      <li><b aria-hidden="true">L</b><span>Lemez, vagy amit kérsz. Felhúzzuk.</span></li>
-      <li><b aria-hidden="true">Z</b><span>Zár a kapun. Kész.</span></li>
-    </ol>
-    <p class="tipusok">Lemezkerítés. <span class="dummy">Drótfonat. Táblás. Fa.</span> Mindenféle.</p>
+    <h2>Kerítés<br>A-tól Z-ig.</h2>
+    <div class="keritesek" id="keritesek"></div>
+    <p class="ker-al">Az alapot géppel ássuk ki, a kerítést felhúzzuk.</p>
 
     <div class="tobbi">
       <h2>És még</h2>
@@ -174,6 +167,12 @@
     <div>
       <h2>Mennyibe kerül?</h2>
       <p class="ar-1">Az árat helyben mondjuk meg, a felmérés ingyenes.</p>
+      <div class="napidij">
+        <p class="nd-cim">Kedvezményes napidíj</p>
+        <p class="nd-ar"><span class="dummy">XX 000 Ft</span><small> / nap</small></p>
+        <p class="nd-al">Gépkezelővel. Ha egész nap kell a gép, napidíjra váltunk, így olcsóbb, mint óránként.</p>
+        <a class="gomb gomb-sotet" href="tel:+36708566191">Hívom: 06 70 856 6191</a>
+      </div>
     </div>
     <ul>
       <li><b>A munka mérete</b>Hossz, mélység, mennyi föld megy el.</li>
