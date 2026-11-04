@@ -78,6 +78,8 @@ h3{font-size:var(--c2)}
 .terkep i{display:inline-block;width:10px;height:10px;border-radius:50%}
 .p1{background:var(--orange)}.p2{background:#fff}
 .forras{margin-left:auto}
+.hova{margin-top:16px;color:#ded8cd;max-width:44rem}
+.hova b{color:#fff;font-weight:900}
 
 /* Műszaki rajz: beton, milliméterrács, méretarányos gép */
 .rajz{color:var(--ink);padding:56px var(--g) 60px;
@@ -162,8 +164,6 @@ input[type=range]:focus-visible::-moz-range-thumb{outline:3px solid var(--ink);o
 .ar-1{font-weight:900;font-size:1.3rem;letter-spacing:-.02em;margin-top:10px;line-height:1.2}
 .napidij{background:var(--orange);color:var(--ink);padding:18px 16px;margin-top:20px}
 .nd-cim{font-weight:900;font-size:1.3rem;letter-spacing:-.025em;line-height:1.1}
-.nd-ar{font-weight:900;font-size:clamp(2.6rem,12.5vw,5.4rem);letter-spacing:-.05em;line-height:1;margin-top:6px;white-space:nowrap}
-.nd-ar small{font-size:.36em;letter-spacing:-.02em}
 .nd-al{font-weight:700;margin-top:8px}
 .napidij .gomb{margin-top:14px}
 .ar ul{list-style:none;margin-top:22px;border-top:2px solid #6b5233}
@@ -246,6 +246,7 @@ legend{font-weight:900;font-size:1.05rem;padding:14px 0 8px}
   .rakodo-gerinc{width:auto;height:min(32svh,24vw);left:43vw;bottom:calc(100% + 22px)}
   .kiszall{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:56px;padding-top:80px;padding-bottom:90px;align-items:start}
   .terkep{margin:0}
+  .hova{grid-column:1/-1;margin-top:0;font-size:1.1rem}
   .terkep figcaption{padding-left:0;padding-right:0}
   .rajz{padding-top:90px;padding-bottom:90px}
   .rajz-sor{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:64px;align-items:start;margin-top:32px}
@@ -275,7 +276,7 @@ legend{font-weight:900;font-size:1.05rem;padding:14px 0 8px}
   .szomszed .gomb{grid-column:2;grid-row:1/span 2;align-self:end;width:320px;margin:0}
   .munkalap-hely{display:grid;grid-template-columns:1fr minmax(0,620px);gap:56px;padding-top:90px;padding-bottom:90px;align-items:start}
   .munkalap{margin-top:0}
-  .valaszt{grid-template-columns:1fr 1fr 1fr}
+  .valaszt{grid-template-columns:repeat(4,1fr)}
   .lab{padding-top:80px}
 }
 @media(prefers-reduced-motion:reduce){

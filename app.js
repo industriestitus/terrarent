@@ -41,7 +41,7 @@
 
   /* --- Falukereső és térkép --- */
   function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, ''); }
-  const FALU = (window.TERKEP ? window.TERKEP.falvak : []).map(([nev, x, y, km, zona]) => ({ nev, x, y, km, zona, kulcs: norm(nev) }));
+  const FALU = (window.TERKEP ? window.TERKEP.falvak : []).map(([nev, x, y, km, zona, mas]) => ({ nev, x, y, km, zona, mas, kulcs: norm(nev), kulcs2: norm(mas || '') }));
 
   const svg = $('terkep'), NS = 'http://www.w3.org/2000/svg';
   let jelolo = null;
@@ -55,11 +55,11 @@
     const T = window.TERKEP;
     svg.setAttribute('viewBox', `0 0 ${T.w} ${T.h}`);
     el('image', { href: 'kep/terkep.svg', x: 0, y: 0, width: T.w, height: T.h }, svg);
-    el('circle', { cx: T.kx, cy: T.ky, r: T.r30, fill: 'rgba(240,160,32,.07)', stroke: '#F0A020', 'stroke-width': 2.5, 'stroke-dasharray': '10 7' }, svg);
-    const felirat = el('text', { x: T.kx, y: T.ky + T.r30 - 12, 'text-anchor': 'middle', 'font-size': 24 }, svg);
-    felirat.textContent = '30 km';
+    const orszag = (hol, nev) => { const t = el('text', { x: hol[0], y: hol[1], 'text-anchor': 'middle', 'font-size': 24, opacity: .7 }, svg); t.textContent = nev; };
+    orszag(T.sk, 'Szlovákia');
+    orszag(T.hu, 'Magyarország');
     for (const f of FALU) {
-      f.pont = el('circle', { class: 'pont', cx: f.x, cy: f.y, r: f.zona === 3 ? 4 : 7, fill: f.zona === 1 ? '#F0A020' : f.zona === 2 ? '#fff' : '#8d8370' }, svg);
+      f.pont = el('circle', { class: 'pont', cx: f.x, cy: f.y, r: 5.5, fill: f.zona === 1 ? '#F0A020' : '#fff' }, svg);
       f.pont.addEventListener('click', () => { $('falu').value = f.nev; valaszt(f); });
     }
     const kp = el('circle', { cx: T.kx, cy: T.ky, r: 12, fill: '#F0A020', stroke: '#141414', 'stroke-width': 3 }, svg);
@@ -76,10 +76,10 @@
     $('talalat').hidden = true;
     $('falu').setAttribute('aria-expanded', 'false');
     const km = Math.round(f.km);
-    if (f.zona === 1) { $('v1').textContent = `${f.nev}: igen.`; $('v2').textContent = 'Nincs kiszállási díj.'; }
-    else if (f.zona === 2) { $('v1').textContent = `${f.nev}: igen.`; $('v2').textContent = `Kb. ${km} km légvonalban. A kiszállásról telefonon megállapodunk.`; }
-    else { $('v1').textContent = `${f.nev}: hívj.`; $('v2').textContent = `Kb. ${km} km légvonalban, ez már a 30 km-es körön túl van. Megbeszéljük.`; }
-    $('v3').textContent = f.nev === 'Balassagyarmat' || f.zona === 3 ? '' : 'Itt még nem ástunk, legyél az első.';
+    $('v1').textContent = `${f.nev}: igen.`;
+    if (f.zona === 1) $('v2').textContent = 'Nincs kiszállási díj.';
+    else $('v2').textContent = `Kb. ${km} km a balassagyarmati teleptől, légvonalban. A kiszállásról megállapodunk.`;
+    $('v3').textContent = f.nev === 'Balassagyarmat' ? '' : 'Itt még nem ástunk, legyél az első.';
     if (jelolo) {
       jelolo.setAttribute('visibility', 'visible');
       const jobbra = f.x < window.TERKEP.w * .62;
@@ -94,8 +94,8 @@
   }
   function ismeretlen(szo) {
     $('valasz').hidden = false;
-    $('v1').textContent = 'Nem találjuk ezt a falut.';
-    $('v2').textContent = `„${szo}": hívj, megbeszéljük.`;
+    $('v1').textContent = 'Ezt a falut nem találjuk.';
+    $('v2').textContent = `„${szo}": hívj, a közelben valószínűleg kimegyünk.`;
     $('v3').textContent = '';
     if (jelolo) jelolo.setAttribute('visibility', 'hidden');
   }
@@ -105,12 +105,12 @@
     ul.innerHTML = '';
     akt = -1;
     if (!q) { ul.hidden = true; $('falu').setAttribute('aria-expanded', 'false'); return; }
-    talalatok = FALU.filter((f) => f.kulcs.includes(q))
+    talalatok = FALU.filter((f) => f.kulcs.includes(q) || f.kulcs2.includes(q))
       .sort((a, b) => (b.kulcs.startsWith(q) - a.kulcs.startsWith(q)) || a.km - b.km).slice(0, 5);
     for (const f of talalatok) {
       const li = document.createElement('li');
       li.setAttribute('role', 'option');
-      li.append(Object.assign(document.createElement('span'), { textContent: f.nev }), Object.assign(document.createElement('small'), { textContent: `${Math.round(f.km)} km` }));
+      li.append(Object.assign(document.createElement('span'), { textContent: f.nev }), Object.assign(document.createElement('small'), { textContent: f.mas || `${Math.round(f.km)} km` }));
       li.addEventListener('pointerdown', (e) => { e.preventDefault(); $('falu').value = f.nev; valaszt(f); });
       ul.appendChild(li);
     }
@@ -135,13 +135,15 @@
   });
 
   /* --- Munkalap: SMS, Viber, email --- */
-  const NEV = { arok: 'Árok', alap: 'Alap', kerites: 'Kerítés', rakodas: 'Föld, sóder, sitt', terep: 'Tereprendezés', mas: 'Valami más' };
+  const NEV = { arok: 'Árok', alap: 'Alap', kerites: 'Kerítés', rakodas: 'Föld, sóder, sitt', terep: 'Tereprendezés', komuves: 'Kőműves munka', bontas: 'Bontás', mas: 'Valami más' };
   const TANACS = {
     arok: 'Ehhez a kotró kell. 110 cm széles, befér a kapun.',
     alap: 'Ehhez a kotró kell. 2,2 méterig ér le.',
     kerites: 'Az alapot géppel ássuk ki, a kerítést felhúzzuk.',
-    rakodas: 'Ehhez a homlokrakodó kell.',
+    rakodas: 'Ehhez a homlokrakodó kell. A földet el is szállítjuk és elhelyezzük.',
     terep: 'A kotró és a homlokrakodó együtt, ha kell.',
+    komuves: 'Falazás, vakolás, gipszkarton, betonozás. Írd le, mi kell.',
+    bontas: 'Épületbontás. A fotó sokat segít.',
     mas: 'Írd le, megnézzük. Kis munkára is kimegyünk.',
   };
   const lap = $('lap'), cs = $('cs');
@@ -154,7 +156,7 @@
     if (kapuMozgott) sorok.push(`Kapu szélessége: ${cs.value} cm`);
     const szoveg = sorok.join('\n');
     $('sms').href = SMS(szoveg);
-    $('level').href = `mailto:ajanlat@terrarent.example?subject=${encodeURIComponent(`Ajánlatkérés: ${munka ? NEV[munka] : 'munka'}`)}&body=${encodeURIComponent(`${szoveg}\n\nA telefonszámom: `)}`;
+    $('level').href = `mailto:terrarentbgy@gmail.com?subject=${encodeURIComponent(`Ajánlatkérés: ${munka ? NEV[munka] : 'munka'}`)}&body=${encodeURIComponent(`${szoveg}\n\nA telefonszámom: `)}`;
   }
   lap.addEventListener('input', frissit);
   frissit();
