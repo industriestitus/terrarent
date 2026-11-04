@@ -7,8 +7,8 @@
 
   /* --- Óra: Balassagyarmat, elérhetőség, napnyugta --- */
   const SZEL = 48.07, HOSSZ = 19.3;
-  // PRÓBA: a munkaidő feltételezett, Bencével egyeztetendő
-  const MUNKAIDO = { tol: 7, ig: 18, napok: [1, 2, 3, 4, 5, 6] };
+  // Hétvégén is dolgoznak. PRÓBA: a 7–18 feltételezett, Bencével egyeztetendő
+  const MUNKAIDO = { tol: 7, ig: 18, napok: [0, 1, 2, 3, 4, 5, 6] };
   function napnyugta(d) {
     const rad = Math.PI / 180;
     const n = Math.floor(d.getTime() / 864e5 + 2440587.5 - 2451545.0 + 0.0008);
@@ -36,7 +36,6 @@
   /* --- Következő szabad nap. PRÓBA: ezt majd egy Google-táblázatból olvassa, most kitalált --- */
   const NAPNEV = ['vasárnap', 'hétfő', 'kedd', 'szerda', 'csütörtök', 'péntek', 'szombat'];
   const szabad = new Date(Date.now() + 2 * 864e5);
-  if (szabad.getDay() === 0) szabad.setDate(szabad.getDate() + 1);
   $('szabadnap').textContent = NAPNEV[szabad.getDay()];
 
   /* --- Falukereső és térkép --- */
