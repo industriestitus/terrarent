@@ -72,6 +72,13 @@ h3{font-size:var(--c2)}
 .valasz-gomb{display:grid;gap:8px;grid-template-columns:1fr 1.5fr;margin-top:14px}
 .valasz-gomb .gomb{font-size:.95rem;padding:0 8px}
 .terkep{margin:26px calc(-1 * var(--g)) 0}
+.terkep-fej{background:var(--orange);color:var(--ink);padding:10px var(--g) 11px}
+.terkep-fej b{display:block;font-weight:900;font-size:clamp(1.15rem,5vw,1.7rem);letter-spacing:-.025em;line-height:1.1}
+.terkep-fej span{display:block;font-weight:700;font-size:.86rem;margin-top:3px;line-height:1.25}
+#terkep .zona{fill:rgba(240,160,32,.2);stroke:#F0A020;stroke-width:3;stroke-linejoin:round}
+#terkep text.varos{font-size:30px;font-weight:900}
+#terkep .varos2{display:none}
+.kiszall-gepek{display:none}
 #terkep{width:100%;height:auto;background:var(--fold2)}
 #terkep .pont{cursor:pointer}
 #terkep text{font-family:'Mont',sans-serif;font-weight:700;fill:#fff;paint-order:stroke;stroke:var(--fold2);stroke-width:4px;stroke-linejoin:round}
@@ -249,6 +256,13 @@ legend{font-weight:900;font-size:1.05rem;padding:14px 0 8px}
   .rakodo-gerinc{width:auto;height:min(32svh,24vw);left:43vw;bottom:calc(100% + 22px)}
   .kiszall{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:56px;padding-top:80px;padding-bottom:90px;align-items:start}
   .terkep{margin:0}
+  .terkep-fej{padding:12px 16px 13px}
+  #terkep text.varos{font-size:21px}
+  #terkep .varos2{display:inline}
+  .kiszall-bal{display:flex;flex-direction:column;align-self:stretch}
+  .kiszall-gepek{display:flex;align-items:flex-end;margin-top:auto;padding-top:28px;border-bottom:6px solid #6B5233}
+  .kiszall-gepek img:first-child{width:36%;position:relative;z-index:2;margin-right:-4%}
+  .kiszall-gepek img:last-child{width:68%}
   .hova{grid-column:1/-1;margin-top:0;font-size:1.1rem}
   .terkep figcaption{padding-left:0;padding-right:0}
   .rajz{padding-top:90px;padding-bottom:90px}

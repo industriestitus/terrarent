@@ -57,13 +57,31 @@
     const orszag = (hol, nev) => { const t = el('text', { x: hol[0], y: hol[1], 'text-anchor': 'middle', 'font-size': 24, opacity: .7 }, svg); t.textContent = nev; };
     orszag(T.sk, 'Szlovákia');
     orszag(T.hu, 'Magyarország');
+    // Az ingyenes zóna kiemelve: a Nyugat-Nógrád-pontok burka
+    const burok = (p) => {
+      const s = [...p].sort((a, b) => a[0] - b[0] || a[1] - b[1]), ker = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+      const fel = (l) => { const h = []; for (const q of l) { while (h.length > 1 && ker(h[h.length - 2], h[h.length - 1], q) <= 0) h.pop(); h.push(q); } h.pop(); return h; };
+      return [...fel(s), ...fel([...s].reverse())];
+    };
+    const zonaP = burok(FALU.filter((f) => f.zona === 1).map((f) => [f.x, f.y]));
+    el('path', { class: 'zona', d: `M${zonaP.map((q) => q.join(' ')).join('L')}Z` }, svg);
     for (const f of FALU) {
       f.pont = el('circle', { class: 'pont', cx: f.x, cy: f.y, r: 5.5, fill: f.zona === 1 ? '#F0A020' : '#fff' }, svg);
       f.pont.addEventListener('click', () => { $('falu').value = f.nev; valaszt(f); });
     }
+    // Nagyobb települések nevei; a varos2 csak asztalon látszik, telefonon nem férne el
+    const NEVEK = [['Salgótarján', 1, 'j'], ['Vác', 1, 'k'], ['Hatvan', 1, 'j'], ['Losonc', 1, 'k'], ['Fülek', 2, 'j'], ['Ipolyság', 1, 'k'], ['Nagykürtös', 1, 'k'], ['Rétság', 2, 'k'], ['Szécsény', 1, 'j'], ['Pásztó', 2, 'j'], ['Dunakeszi', 1, 'k'], ['Gödöllő', 2, 'j'], ['Gyöngyöspata', 2, 'j'], ['Szob', 2, 'k'], ['Bátonyterenye', 2, 'j'], ['Aszód', 2, 'k'], ['Letkés', 2, 'j']];
+    for (const [nev, szint, old] of NEVEK) {
+      const f = FALU.find((x) => x.nev === nev);
+      if (!f) continue;
+      el('circle', { class: szint === 2 ? 'varos2' : '', cx: f.x, cy: f.y, r: 8.5, fill: 'none', stroke: '#fff', 'stroke-width': 2 }, svg);
+      const t = el('text', { class: `varos varos${szint}`, x: f.x + (old === 'j' ? 13 : -13), y: f.y + 7, 'text-anchor': old === 'j' ? 'start' : 'end' }, svg);
+      t.textContent = nev;
+      t.style.pointerEvents = 'none';
+    }
     const kp = el('circle', { cx: T.kx, cy: T.ky, r: 12, fill: '#F0A020', stroke: '#141414', 'stroke-width': 3 }, svg);
     kp.style.pointerEvents = 'none';
-    const kpt = el('text', { x: T.kx + 18, y: T.ky - 14, 'font-size': 28, 'font-weight': 900 }, svg);
+    const kpt = el('text', { x: T.kx - 18, y: T.ky - 14, 'font-size': 28, 'font-weight': 900, 'text-anchor': 'end' }, svg);
     kpt.textContent = 'Balassagyarmat';
     jelolo = el('g', { visibility: 'hidden' }, svg);
     el('circle', { r: 16, fill: 'none', stroke: '#fff', 'stroke-width': 4 }, jelolo);
@@ -76,7 +94,7 @@
     $('falu').setAttribute('aria-expanded', 'false');
     const km = Math.round(f.km);
     $('v1').textContent = `${f.nev}: igen.`;
-    if (f.zona === 1) $('v2').textContent = 'Nincs kiszállási díj.';
+    if (f.zona === 1) $('v2').textContent = 'Ingyenes kiszállás.';
     else $('v2').textContent = `Kb. ${km} km a balassagyarmati teleptől, légvonalban. A kiszállásról megállapodunk.`;
     $('v3').textContent = f.nev === 'Balassagyarmat' ? '' : 'Itt még nem ástunk, legyél az első.';
     if (jelolo) {
