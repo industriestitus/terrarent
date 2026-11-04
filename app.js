@@ -64,18 +64,19 @@
       return [...fel(s), ...fel([...s].reverse())];
     };
     const zonaP = burok(FALU.filter((f) => f.zona === 1).map((f) => [f.x, f.y]));
-    el('path', { class: 'zona', d: `M${zonaP.map((q) => q.join(' ')).join('L')}Z` }, svg);
+    el('feGaussianBlur', { stdDeviation: 16 }, el('filter', { id: 'lagy', x: '-20%', y: '-20%', width: '140%', height: '140%' }, el('defs', {}, svg)));
+    el('path', { class: 'zona', filter: 'url(#lagy)', d: `M${zonaP.map((q) => q.join(' ')).join('L')}Z` }, svg);
     for (const f of FALU) {
       f.pont = el('circle', { class: 'pont', cx: f.x, cy: f.y, r: 5.5, fill: f.zona === 1 ? '#F0A020' : '#fff' }, svg);
       f.pont.addEventListener('click', () => { $('falu').value = f.nev; valaszt(f); });
     }
     // Nagyobb települések nevei; a varos2 csak asztalon látszik, telefonon nem férne el
-    const NEVEK = [['Salgótarján', 1, 'j'], ['Vác', 1, 'k'], ['Hatvan', 1, 'j'], ['Losonc', 1, 'k'], ['Fülek', 2, 'j'], ['Ipolyság', 1, 'k'], ['Nagykürtös', 1, 'k'], ['Rétság', 2, 'k'], ['Szécsény', 1, 'j'], ['Pásztó', 2, 'j'], ['Dunakeszi', 1, 'k'], ['Gödöllő', 2, 'j'], ['Gyöngyöspata', 2, 'j'], ['Szob', 2, 'k'], ['Bátonyterenye', 2, 'j'], ['Aszód', 2, 'k'], ['Letkés', 2, 'j']];
+    const NEVEK = [['Salgótarján', 1, 'f'], ['Vác', 1, 'k'], ['Hatvan', 1, 'j'], ['Losonc', 1, 'k'], ['Fülek', 2, 'j'], ['Ipolyság', 1, 'k'], ['Nagykürtös', 1, 'k'], ['Rétság', 2, 'k'], ['Szécsény', 1, 'j'], ['Pásztó', 2, 'j'], ['Dunakeszi', 1, 'k'], ['Gödöllő', 2, 'j'], ['Gyöngyöspata', 2, 'j'], ['Szob', 2, 'k'], ['Bátonyterenye', 2, 'k'], ['Aszód', 2, 'k'], ['Letkés', 2, 'j']];
     for (const [nev, szint, old] of NEVEK) {
       const f = FALU.find((x) => x.nev === nev);
       if (!f) continue;
       el('circle', { class: szint === 2 ? 'varos2' : '', cx: f.x, cy: f.y, r: 8.5, fill: 'none', stroke: '#fff', 'stroke-width': 2 }, svg);
-      const t = el('text', { class: `varos varos${szint}`, x: f.x + (old === 'j' ? 13 : -13), y: f.y + 7, 'text-anchor': old === 'j' ? 'start' : 'end' }, svg);
+      const t = el('text', { class: `varos varos${szint}`, x: f.x + (old === 'j' ? 13 : old === 'f' ? 10 : -13), y: old === 'f' ? f.y - 20 : f.y + 7, 'text-anchor': old === 'j' ? 'start' : 'end' }, svg);
       t.textContent = nev;
       t.style.pointerEvents = 'none';
     }
@@ -214,8 +215,12 @@
     $('bal').style.height = $('jobb').style.height = `${200 * p}px`;
     $('kapuk').style.height = `${230 * p + 30}px`;
     $('meret').textContent = `${c} cm`;
+    $('meret').style.left = `${kozep - c / 2 * p}px`;
+    $('meret').style.width = `${c * p}px`;
     const f = c - GEP, it = $('itelet'), ma = $('magy');
     it.classList.toggle('rossz', f < 0);
+    $('bal').classList.toggle('rossz', f < 0);
+    $('jobb').classList.toggle('rossz', f < 0);
     if (f >= 5) { it.textContent = 'Átfér.'; ma.textContent = `Marad még ${f} cm.`; }
     else if (f >= 0) { it.textContent = 'Épp hogy.'; ma.textContent = 'Szoros, de átfér. Nézzük meg együtt.'; }
     else { it.textContent = 'Nem fér át.'; ma.textContent = `Hiányzik ${-f} cm. Hívj, megnézzük, van-e másik út.`; }

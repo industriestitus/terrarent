@@ -75,7 +75,7 @@ h3{font-size:var(--c2)}
 .terkep-fej{background:var(--orange);color:var(--ink);padding:10px var(--g) 11px}
 .terkep-fej b{display:block;font-weight:900;font-size:clamp(1.15rem,5vw,1.7rem);letter-spacing:-.025em;line-height:1.1}
 .terkep-fej span{display:block;font-weight:700;font-size:.86rem;margin-top:3px;line-height:1.25}
-#terkep .zona{fill:rgba(240,160,32,.2);stroke:#F0A020;stroke-width:3;stroke-linejoin:round}
+#terkep .zona{fill:rgba(240,160,32,.2)}
 #terkep text.varos{font-size:30px;font-weight:900}
 #terkep .varos2{display:none}
 .kiszall-gepek{display:none}
@@ -110,7 +110,7 @@ h3{font-size:var(--c2)}
 .rajz-adat p{margin-top:12px;font-weight:700}
 
 .kapumero{margin-top:52px}
-.kapumero label{display:block;font-weight:700;margin-top:12px}
+.kapumero label{display:block;font-weight:700;margin-top:14px}
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:52px;background:transparent;touch-action:none;cursor:pointer;margin:0;display:block}
 input[type=range]::-webkit-slider-runnable-track{height:6px;background:var(--ink)}
 input[type=range]::-moz-range-track{height:6px;background:var(--ink)}
@@ -119,13 +119,16 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;background:var(--oran
 input[type=range]:focus{outline:0}
 input[type=range]:focus-visible::-webkit-slider-thumb{outline:3px solid var(--ink);outline-offset:2px}
 input[type=range]:focus-visible::-moz-range-thumb{outline:3px solid var(--ink);outline-offset:2px}
-.itelet{font-weight:900;font-size:clamp(2.2rem,10vw,4.4rem);letter-spacing:-.04em;line-height:1;white-space:nowrap}
+.itelet{margin-top:16px;font-weight:900;font-size:clamp(2.2rem,10vw,4.4rem);letter-spacing:-.04em;line-height:1;white-space:nowrap}
 .itelet.rossz{color:#a12a12}
 .magyar{font-weight:700;margin-top:4px;min-height:2.84em}
 .kapu{position:relative;margin-top:18px;border-bottom:5px solid var(--ink);overflow:hidden;height:320px}
-.kapu-meret{position:absolute;top:0;left:50%;transform:translateX(-50%);font-weight:900;white-space:nowrap}
+.kapu-meret{position:absolute;top:0;height:22px;display:flex;align-items:center;gap:6px;font-weight:900;white-space:nowrap;border:solid var(--ink);border-width:0 2px}
+.kapu-meret::before,.kapu-meret::after{content:'';flex:1;height:2px;background:var(--ink)}
 .oszlop{position:absolute;bottom:0;width:16px;background:var(--ink)}
-.szembol{position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
+.oszlop.rossz{background:#a12a12}
+.szembol{position:absolute;bottom:0;left:50%;transform:translateX(-50%);display:block}
+.kapu-skala{display:flex;justify-content:space-between;font-size:.82rem;font-weight:700;margin-top:-6px}
 
 .rakodo{display:grid;grid-template-columns:42% 1fr;gap:16px;align-items:end;margin-top:56px}
 .rakodo h3{font-size:clamp(1.35rem,5.6vw,3rem)}
@@ -269,7 +272,8 @@ legend{font-weight:900;font-size:1.05rem;padding:14px 0 8px}
   .rajz-sor{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:64px;align-items:start;margin-top:32px}
   .metszet{margin-top:0;max-width:560px}
   .rajz-adat{margin-top:0}
-  .kapumero{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:64px;align-items:end;margin-top:80px}
+  .kapumero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:64px;align-items:center;margin-top:80px}
+  .kapu-jelenet{max-width:520px}
   .kapu{margin-top:0}
   .rakodo{grid-template-columns:300px minmax(0,560px);gap:40px;margin-top:80px}
   .szamolo-hely{display:grid;grid-template-columns:1fr 1fr;gap:56px;padding-top:90px;padding-bottom:90px;align-items:end}
@@ -279,7 +283,8 @@ legend{font-weight:900;font-size:1.05rem;padding:14px 0 8px}
   .keritesek{grid-template-columns:repeat(4,1fr);gap:32px;margin-top:40px}
   .tobbi{display:grid;grid-template-columns:240px 1fr;column-gap:40px;padding-top:70px}
   .tobbi p{grid-column:2}
-  .tobbi ul{margin-top:0;display:grid;grid-template-columns:1fr 1fr;column-gap:40px}
+  .tobbi ul{margin-top:0;columns:2;column-gap:40px}
+  .tobbi li{break-inside:avoid}
   .ar{display:grid;grid-template-columns:1fr 1fr;gap:64px;padding-top:90px;padding-bottom:90px}
   .ar ul{margin-top:8px}
   .igy{padding-top:90px;padding-bottom:70px}
@@ -292,6 +297,7 @@ legend{font-weight:900;font-size:1.05rem;padding:14px 0 8px}
   .szomszed p{grid-column:1}
   .szomszed .gomb{grid-column:2;grid-row:1/span 2;align-self:end;width:320px;margin:0}
   .munkalap-hely{display:grid;grid-template-columns:1fr minmax(0,620px);gap:56px;padding-top:90px;padding-bottom:90px;align-items:start}
+  .ml-bal{display:flex;flex-direction:column;align-self:stretch}
   .munkalap{margin-top:0}
   .valaszt{grid-template-columns:repeat(4,1fr)}
   .lab{padding-top:80px}
