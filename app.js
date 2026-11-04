@@ -164,7 +164,21 @@
     mas: 'Írd le, megnézzük. Kis munkára is kimegyünk.',
   };
   const lap = $('lap'), cs = $('cs');
-  let kapuMozgott = false;
+  let kapuMozgott = false, lapSzoveg = '';
+  // A Viber-link nem visz magával szöveget, ezért vágólapra tesszük. A link ettől még megnyílik.
+  $('viber').addEventListener('click', () => {
+    const k = $('lapkesz');
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(lapSzoveg).then(() => {
+      k.hidden = false;
+      k.textContent = 'Kimásoltuk, amit kitöltöttél. A Viberben csak illeszd be.';
+    }).catch(() => { /* másolás nélkül is megnyílik a Viber */ });
+  });
+  $('level').addEventListener('click', () => {
+    const k = $('lapkesz');
+    k.hidden = false;
+    k.textContent = 'Ha nem nyílt meg a levelező, írj ide: terrarentbgy@gmail.com';
+  });
   function frissit() {
     const adat = new FormData(lap);
     const munka = adat.get('munka');
@@ -172,6 +186,7 @@
     const sorok = ['Szia! Ezt kérném:', `Munka: ${munka ? NEV[munka] : ''}`, `Hely: ${(adat.get('hely') || '').trim()}`, `Mikor: ${adat.get('mikor') || ''}`];
     if (kapuMozgott) sorok.push(`Kapu szélessége: ${cs.value} cm`);
     const szoveg = sorok.join('\n');
+    lapSzoveg = szoveg;
     $('sms').href = SMS(szoveg);
     $('level').href = `mailto:terrarentbgy@gmail.com?subject=${encodeURIComponent(`Ajánlatkérés: ${munka ? NEV[munka] : 'munka'}`)}&body=${encodeURIComponent(`${szoveg}\n\nA telefonszámom: `)}`;
   }
